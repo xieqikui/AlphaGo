@@ -1,13 +1,13 @@
 # AlphaGo
 Python AlphaGo
 
-##core
+## core
 共同模块
 
-##xqk
+## xqk
 
-##llb
+## llb
 
-##wyn
+## wyn
 
-##zrm
+## zrm
