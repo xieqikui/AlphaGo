@@ -6,7 +6,7 @@ from email.utils import parseaddr, formataddr
 import smtplib
 
 class SendPlainEmail():
-	def __init__(self, senderaddr, senderpwd, receiveraddr, smtpserver, etext, efrom, eto, esubject, smptport):
+	def __init__(self, senderaddr, senderpwd, receiveraddr, smtpserver, etext, efrom, eto, esubject, smptport, etype):
 		self.senderaddr = senderaddr
 		self.senderpwd = senderpwd
 		self.receiveraddr = receiveraddr
@@ -16,6 +16,7 @@ class SendPlainEmail():
 		self.eto = eto
 		self.esubject = esubject
 		self.smptport = int(smptport)
+		self.etype = etype
 	def __formataddr__(self, s):
 		name, addr = parseaddr(s)
 		print ('name:' ,name)
@@ -23,7 +24,7 @@ class SendPlainEmail():
 		print ('formataddr:' ,formataddr((Header(name, 'utf-8').encode(), addr)))
 		return formataddr((Header(name, 'utf-8').encode(), addr))
 	def __emailcontent__(self):
-		msg = MIMEText(self.etext, 'plain', 'utf-8')
+		msg = MIMEText(self.etext, self.etype, 'utf-8')
 		msg['From'] = self.__formataddr__(self.efrom + '<' + self.senderaddr + '>') 
 		msg['To'] = self.__formataddr__(self.eto + '<' + self.receiveraddr + '>')
 		msg['Subject'] = Header(self.esubject, 'utf-8').encode()
@@ -49,12 +50,22 @@ if __name__ == '__main__':
 	receiveraddr = '******'
 	# smtpserver = 'smtp.163.com'
 	smtpserver = 'smtp.qq.com'
-	etext = '使用python编程语言中email模块和smtp模块实现发邮件功能！'
+	# etext = '使用python编程语言中email模块和smtp模块实现发邮件功能！'
+	etext = """
+	<html>
+	<body>
+	<h1>hello</h1>
+	<p><a href="https://github.com">github wetsite</a></p>
+	</body>
+	</html>
+	"""
 	efrom = 'QQ邮箱'
 	eto = '163邮箱'
 	esubject = '邮件发送功能测试......'
 	smptport = 465
-	obj = SendPlainEmail(senderaddr, senderpwd, receiveraddr, smtpserver, etext, efrom, eto, esubject, smptport)
+	# etype = 'plain'
+	etype = 'html'
+	obj = SendPlainEmail(senderaddr, senderpwd, receiveraddr, smtpserver, etext, efrom, eto, esubject, smptport, etype)
 	obj.__smptsendemail__()
 
 
